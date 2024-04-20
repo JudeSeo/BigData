@@ -1,3 +1,5 @@
+# 문자열
+
 # 01
 a = "Hello World";
 b = "Hello Python's World";
