@@ -1,4 +1,4 @@
-# 자료형 및 연산자
+# 숫자형(Number)
 
 # 01
 a = 1234
@@ -15,7 +15,7 @@ b = 7;
 print(a + b);
 print(a - b);
 print(a * b);
-print(a / b); # 나누기
-print(a ** b); # 제곱
-print(a % b); # 나머지
-print(a // b); #몫
+print(a / b);  # 나누기
+print(a ** b);  # 제곱
+print(a % b);  # 나머지
+print(a // b);  # 몫

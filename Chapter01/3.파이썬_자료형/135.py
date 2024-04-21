@@ -1,4 +1,4 @@
-# 딕셔너리
+# 딕셔너리(Dictionary) 자료형
 
 # 01
 a = {'name': 'John', 'age': 30, 'birth': [11, 8]};

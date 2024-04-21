@@ -1,4 +1,4 @@
-# 문자열
+# 문자열(String) 자료형
 
 # 01
 a = "Hello World";
