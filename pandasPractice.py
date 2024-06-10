@@ -62,3 +62,15 @@ df['new_price'] = df['item_price'].str[1:].astype('float');
 
 # print(df.loc[df['new_price']<=5]);
 # print(len(df.loc[df['new_price']<=5]));
+
+
+# print(df.loc[df['item_name']=='Chicken Salad Bowl'].reset_index(drop=True));
+
+# print(df.loc[(df['new_price']<=9) & (df['item_name']=='Chicken Salad Bowl')]);
+
+# print(df.sort_values('new_price', ascending=True).reset_index(drop=True));
+
+# print(df.loc[df['item_name'].str.contains('Chips')]);
+
+# 짝수번째 컬럼만 출력
+# print(df.iloc[:,::2]);
