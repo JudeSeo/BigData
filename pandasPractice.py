@@ -121,3 +121,29 @@ df.loc[df.choice_description.isnull(), 'choice_description'] = 'NoData'
 # ans = df[df.new_price.isin(list)];
 # display(ans)
 # display(len(ans));
+
+# 데이터를 로드하고 상위 5개 컬럼을 출력하라
+df = pd.read_csv('https://raw.githubusercontent.com/Datamanim/pandas/main/AB_NYC_2019.csv');
+# display(df.head(5));
+
+# 데이터의 각 host_name의 빈도수를 구하고 host_name으로 정렬하여 상위 5개를 출력하라
+# display(df.describe());
+# display(df.groupby('host_name').size().head(5));
+# display(df.host_name.value_counts().sort_index().head(5));
+
+# 데이터의 각 host_name의 빈도수를 구하고 빈도수 기준 내림차순 정렬한 데이터 프레임을 만들어라. 빈도수 컬럼은 counts로 명명하라
+# display(df.groupby('host_name').size().to_frame().rename(columns={0:'counts'}).sort_values('counts', ascending=False));
+
+# neighbourhood_group의 값에 따른 neighbourhood컬럼 값의 갯수를 구하여라
+# display(df.groupby(['neighbourhood_group', 'neighbourhood'], as_index=False).size());
+
+# neighbourhood_group의 값에 따른 neighbourhood컬럼 값 중 neighbourhood_group그룹의 최댓값들을 출력하라
+# display(df.groupby(['neighbourhood_group', 'neighbourhood'], as_index=False).size().groupby('neighbourhood_group', as_index=False).max());
+
+# neighbourhood_group 값에 따른 price값의 평균, 분산, 최대, 최소 값을 구하여라
+# display(df.groupby('neighbourhood_group').agg({'price':['mean', 'var', 'max', 'min']}));
+# display(df[['neighbourhood_group','price']].groupby('neighbourhood_group').agg({'price':['mean', 'var', 'max', 'min']}));
+
+# neighbourhood_group 값에 따른 reviews_per_month 평균, 분산, 최대, 최소 값을 구하여라
+# display(df.groupby('neighbourhood_group').agg({'reviews_per_month':['mean','var','max','min']}));
+# display(df[['neighbourhood_group','reviews_per_month']].groupby('neighbourhood_group').agg(['mean','var','max','min']));
