@@ -147,3 +147,20 @@ df = pd.read_csv('https://raw.githubusercontent.com/Datamanim/pandas/main/AB_NYC
 # neighbourhood_group 값에 따른 reviews_per_month 평균, 분산, 최대, 최소 값을 구하여라
 # display(df.groupby('neighbourhood_group').agg({'reviews_per_month':['mean','var','max','min']}));
 # display(df[['neighbourhood_group','reviews_per_month']].groupby('neighbourhood_group').agg(['mean','var','max','min']));
+
+# neighbourhood 값과 neighbourhood_group 값에 따른 price 의 평균을 구하라
+# display(df.groupby(['neighbourhood', 'neighbourhood_group']).price.mean());
+
+# neighbourhood 값과 neighbourhood_group 값에 따른 price 의 평균을 계층적 indexing 없이 구하라
+# display(df.groupby(['neighbourhood', 'neighbourhood_group']).price.mean().unstack());
+
+# neighbourhood 값과 neighbourhood_group 값에 따른 price 의 평균을 계층적 indexing 없이 구하고 nan 값은 -999값으로 채워라
+# display(df.groupby(['neighbourhood', 'neighbourhood_group']).price.mean().unstack().fillna(-999));
+
+# 데이터중 neighbourhood_group 값이 Queens값을 가지는 데이터들 중 neighbourhood 그룹별로 price값의 평균, 분산, 최대, 최소값을 구하라
+# display(df[df.neighbourhood_group == "Queens"].groupby(['neighbourhood']).agg({'price':['mean', 'var','max','min']}));
+
+# 데이터중 neighbourhood_group 값에 따른 room_type 컬럼의 숫자를 구하고 neighbourhood_group 값을 기준으로 각 값의 비율을 구하여라
+ans = df[['neighbourhood_group', 'room_type']].groupby(['neighbourhood_group', 'room_type']).size().unstack();
+ans.loc[:,:]=(ans.values/ans.sum(axis=1).values.reshape(-1,1))
+display(ans);
