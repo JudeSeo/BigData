@@ -250,3 +250,35 @@ df= pd.read_csv('https://raw.githubusercontent.com/Datamanim/pandas/main/BankChu
 
 # df['Gender'] = df.Gender.apply(changeGender);
 # display(df['Gender'].value_counts());
+
+
+df = pd.read_csv('https://raw.githubusercontent.com/Datamanim/pandas/main/timeTest.csv');
+# display(df.info());
+
+# Yr_Mo_Dy을 판다스에서 인식할 수 있는 datetime64타입으로 변경하라
+df.Yr_Mo_Dy = pd.to_datetime(df.Yr_Mo_Dy)
+# display(df);
+
+# Yr_Mo_Dy에 존재하는 년도의 유일값을 모두 출력하라
+# display(df.Yr_Mo_Dy.dt.year.unique());
+
+# Yr_Mo_Dy에 년도가 2061년 이상의 경우에는 모두 잘못된 데이터이다. 해당경우의 값은 100을 빼서 새롭게 날짜를 Yr_Mo_Dy 컬럼에 정의하라
+def checkYear(x):
+    import datetime;
+    if x.year >= 2061:
+        return pd.to_datetime(datetime.date(x.year-100, x.month, x.day))
+    else:
+        return pd.to_datetime(datetime.date(x.year, x.month, x.day))
+df['Yr_Mo_Dy'] = df.Yr_Mo_Dy.apply(checkYear)
+# display(df);
+
+# 년도별 각컬럼의 평균값을 구하여라
+# display(df.groupby(df.Yr_Mo_Dy.dt.year).mean());
+
+# weekday컬럼을 만들고 요일별로 매핑하라 ( 월요일: 0 ~ 일요일 :6)
+df['weekday'] = df.Yr_Mo_Dy.dt.weekday;
+# display(df['weekday'].to_frame());
+
+# weekday컬럼을 기준으로 주말이면 1 평일이면 0의 값을 가지는 WeekCheck 컬럼을 만들어라
+df['WeekCheck'] = df.weekday.map(lambda x: 1 if x in [5,6] else 0);
+display(df['WeekCheck'].to_frame());
