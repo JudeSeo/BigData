@@ -281,4 +281,62 @@ df['weekday'] = df.Yr_Mo_Dy.dt.weekday;
 
 # weekday컬럼을 기준으로 주말이면 1 평일이면 0의 값을 가지는 WeekCheck 컬럼을 만들어라
 df['WeekCheck'] = df.weekday.map(lambda x: 1 if x in [5,6] else 0);
-display(df['WeekCheck'].to_frame());
+# display(df['WeekCheck'].to_frame());
+
+# 년도, 일자 상관없이 모든 컬럼의 각 달의 평균을 구하여라
+# display(df.groupby(df.Yr_Mo_Dy.dt.month).mean());
+
+# 모든 결측치는 컬럼기준 직전의 값으로 대체하고 첫번째 행에 결측치가 있을경우 뒤에있는 값으로 대채하라
+df=df.fillna(method='ffill').fillna(method='bfill');
+# display(df);
+
+# 년도 - 월을 기준으로 모든 컬럼의 평균값을 구하여라
+# display(df.groupby(df.Yr_Mo_Dy.dt.to_period('M')).mean());
+
+# RPT 컬럼의 값을 일자별 기준으로 1차차분하라
+# display(df['RPT'].diff());
+
+# RPT와 VAL의 컬럼을 일주일 간격으로 각각 이동평균한값을 구하여라
+# display(df[['RPT', 'VAL']].rolling(7).mean());
+
+# 서울시 미세먼지
+df = pd.read_csv('https://raw.githubusercontent.com/Datamanim/pandas/main/seoul_pm.csv');
+
+# 년-월-일:시 컬럼을 pandas에서 인식할 수 있는 datetime 형태로 변경하라. 서울시의 제공데이터의 경우 0시가 24시로 표현된다
+def change_date(x):
+    import datetime;
+    hour = x.split(':')[1]
+    date = x.split(":")[0]
+
+    if hour =='24':
+        hour ='00:00:00'
+
+        FinalDate = pd.to_datetime(date +" "+hour) +datetime.timedelta(days=1)
+
+    else:
+        hour = hour +':00:00'
+        FinalDate = pd.to_datetime(date +" "+hour)
+
+    return FinalDate;
+
+df['(년-월-일:시)'] = df['(년-월-일:시)'].apply(change_date)
+# display(df);
+
+# 일자별 영어요일 이름을 dayName 컬럼에 저장하라
+df['dayName'] = df['(년-월-일:시)'].dt.day_name();
+# display(df['dayName']);
+
+# 일자별 각 PM10등급의 빈도수를 파악하라
+ans=df.groupby(['dayName','PM10등급'], as_index=False).size();
+# display(ans);
+# display(ans.pivot(index='dayName',columns='PM10등급', values='size').fillna(0));
+
+# 시간이 연속적으로 존재하며 결측치가 없는지 확인하라
+check = len(df['(년-월-일:시)'].diff().unique());
+# if check == 2:
+#     print(True);
+# else :
+#     print(False);
+
+# 오전 10시와 오후 10시(22시)의 PM10의 평균값을 각각 구하여라
+display(df.groupby(df['(년-월-일:시)'].dt.hour)['PM10'].mean().iloc[[10, 22]]);
