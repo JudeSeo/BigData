@@ -339,4 +339,48 @@ check = len(df['(년-월-일:시)'].diff().unique());
 #     print(False);
 
 # 오전 10시와 오후 10시(22시)의 PM10의 평균값을 각각 구하여라
-display(df.groupby(df['(년-월-일:시)'].dt.hour)['PM10'].mean().iloc[[10, 22]]);
+# display(df.groupby(df['(년-월-일:시)'].dt.hour)['PM10'].mean().iloc[[10, 22]]);
+
+
+# 날짜 컬럼을 index로 만들어라
+df.set_index('(년-월-일:시)', inplace=True, drop=True)
+# display(df);
+
+# 데이터를 주단위로 뽑아서 최소,최대 평균, 표준표차를 구하여라
+# display(df.index)
+ans = df.select_dtypes(exclude='object').resample('W').agg(['min','max','mean','var']);
+# display(ans);
+
+df = pd.read_csv('https://raw.githubusercontent.com/Datamanim/pandas/main/under5MortalityRate.csv');
+# Indicator을 삭제하고 First Tooltip 컬럼에서 신뢰구간에 해당하는 표현을 지워라
+df.drop('Indicator', axis=1, inplace=True);
+df['First Tooltip'] = df['First Tooltip'].map(lambda x:float(x.split("[")[0]));
+# display(df);
+
+# 년도가 2015년 이상, Dim1이 Both sexes인 케이스만 추출하라
+ans = df.loc[(df['Period']>=2015) & (df['Dim1'] == 'Both sexes')]
+# display(ans)
+
+# 84번 문제에서 추출한 데이터로 아래와 같이 나라에 따른 년도별 사망률을 데이터 프레임화 하라
+ans2 = ans.pivot(index='Location', columns='Period', values='First Tooltip')
+# display(ans2);
+
+# Dim1에 따른 년도별 사망비율의 평균을 구하라
+ans = df.pivot_table(index='Dim1',columns='Period',values='First Tooltip', aggfunc='mean');
+# display(ans);
+
+
+df = pd.read_csv('https://raw.githubusercontent.com/Datamanim/pandas/main/winter.csv');
+# display(df);
+# 데이터에서 한국 KOR 데이터만 추출하라
+# display(df.loc[df['Country'] == 'KOR']);
+
+# 한국 올림픽 메달리스트 데이터에서 년도에 따른 medal 갯수를 데이터프레임화 하라
+# display(df.loc[df['Country'] == 'KOR'].pivot_table(index='Year',columns='Medal', aggfunc='size').fillna(0));
+
+# 전체 데이터에서 sport종류에 따른 성별수를 구하여라
+# display(df.pivot_table(index='Sport',columns='Gender', aggfunc='size'));
+
+# 전체 데이터에서 Discipline종류에 따른 따른 Medal수를 구하여라
+display(df.pivot_table(index='Discipline',columns='Medal', aggfunc='size'));
+
