@@ -49,7 +49,7 @@ print('train precision_score :', precision_score(Y_train,predict_train_label))
 print('validation precision_score :', precision_score(Y_validation,predict_validation_label))
 print('\n')
 print('train auc :', roc_auc_score(Y_train,predict_train_proba))
-print('validation auc :', roc_auc_score(Y_validation,predict_validation_prob))
+print('validation auc :', roc_auc_score(Y_validation,predict_validation_proba))
 
 predict_test_label = rf.predict(x_test_dummies)
 predict_test_proba = rf.predict_proba(x_test_dummies)[:, 1];
