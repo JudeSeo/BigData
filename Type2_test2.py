@@ -9,7 +9,7 @@ x_test= pd.read_csv("https://raw.githubusercontent.com/Datamanim/datarepo/main/s
 display(x_train.head())
 display(y_train.head())
 
-drop_col = ['ID'];
+drop_col = ['ID', '구강검진수검여부'];
 x_train_drop = x_train.drop(columns=drop_col);
 x_test_drop = x_test.drop(columns=drop_col);
 
